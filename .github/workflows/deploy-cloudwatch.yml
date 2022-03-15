@@ -1,0 +1,54 @@
+name: Deploy Cloudwatch of EKS
+
+on:
+  workflow_call:
+    inputs:
+      AWS_REGION:
+        required: true
+        type: string
+      EKS_CLUSTER:
+        required: true
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+# env:
+#   AWS_REGION: "ap-southeast-1"                   # set this to your preferred AWS region, e.g. us-west-1
+#   EKS_CLUSTER: "ci-cd-eks"                 # set this to your Amazon ECS cluster name
+  
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - uses: azure/setup-kubectl@v2.0
+#       with:
+#         version: 'v.1.21.3' # default is latest stable
+      id: install
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ inputs.AWS_REGION }}
+    
+    - name: Update kube config
+      run: aws eks update-kubeconfig --name ${{ inputs.EKS_CLUSTER }} --region ${{ inputs.AWS_REGION }}
+
+    - name: Deploy cloudwatch for EKS
+      run: |
+        kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/cloudwatch-namespace.yaml
+        kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/cwagent/cwagent-serviceaccount.yaml
+        #this is local config file.
+        kubectl apply -f cloudwatchConfigMap.yaml
+        kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/cwagent/cwagent-daemonset.yaml
+        kubectl get pods -n amazon-cloudwatch
