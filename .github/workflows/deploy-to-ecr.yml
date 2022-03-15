@@ -1,0 +1,71 @@
+name: Deploy to Amazon ECS
+
+on:
+  workflow_call:
+    inputs:
+      AWS_REGION:
+        required: true
+        type: string
+      ECR_REPOSITORY:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+
+# env:
+#   AWS_REGION: "ap-southeast-2"                   # set this to your preferred AWS region, e.g. us-west-1
+#   ECR_REPOSITORY: "github_action_test_repo"           # set this to your Amazon ECR repository name
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ inputs.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - uses: olegtarasov/get-tag@v2.1
+      id: tagName
+
+    - name: Some other step # Output usage example
+      run: |
+        echo "${{ env.GIT_TAG_NAME }}"
+        echo "${{ steps.tagName.outputs.tag }}"
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ steps.tagName.outputs.tag }}
+      run: |
+        # Build a docker container and
+        # push it to ECR so that it can
+        # be deployed to ECS.
+        
+        echo $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$IMAGE_TAG
+        echo "${{ toJSON(steps.login-ecr.outputs) }}"
+        TAG=$IMAGE_TAG
+        
+        if [ -z "$TAG" ]
+        then
+              echo "\$TAG is empty"
+              TAG='latest'
+        else
+              echo "\$TAG is NOT empty"
+        fi
+        echo "AFTER: $TAG"
+        docker build -t $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG .
+        docker push $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG
+        echo "::set-output name=image::$ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG"
