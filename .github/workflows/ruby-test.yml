@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  workflow_call:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        with:
+          ruby-version: '3.0.3'
+          bundler-cache: true
+      - name: Install dependencies
+        run: | 
+          gem install bundler
+          bundle install
+#       - name: Rubocop checks
+#         uses: gimenete/rubocop-action@1.0
+      - name: Run rubocop
+        run: |
+          bundle exec rubocop
+      - name: Run tests
+        run: bundle exec rspec spec
