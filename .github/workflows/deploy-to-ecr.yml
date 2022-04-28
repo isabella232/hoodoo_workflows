@@ -12,6 +12,10 @@ on:
       BRANCH: 
         required: true
         type: string
+      ENVIRONMENT:
+        required: false
+        type: string
+        default: 'production'
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -26,6 +30,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    environment: ${{ inputs.ENVIRONMENT }}
 
     steps:
     - name: Checkout
