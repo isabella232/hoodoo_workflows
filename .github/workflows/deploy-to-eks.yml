@@ -32,9 +32,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     
-    - name: Go to folder
-      run: |
-        cd ${{ inputs.KUBERNETES_PATH }}
+#     - name: Go to folder
+#       run: |
+#         cd ${{ inputs.KUBERNETES_PATH }}
         
     - uses: azure/setup-kubectl@v2.0
 #       with:
@@ -53,4 +53,4 @@ jobs:
 
     - name: Deploy image to Amazon EKS
       run: |
-        kubectl apply -f kubernetes
+        kubectl apply -f ${{ inputs.KUBERNETES_PATH }}
