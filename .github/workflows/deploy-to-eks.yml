@@ -9,6 +9,9 @@ on:
       EKS_CLUSTER:
         required: true
         type: string
+      KUBERNETES_PATH:
+        required: false
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -29,6 +32,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     
+    - name: Go to folder
+      run: |
+        cd ${{ inputs.KUBERNETES_PATH }}
+        
     - uses: azure/setup-kubectl@v2.0
 #       with:
 #         version: 'v.1.21.3' # default is latest stable
@@ -46,5 +53,4 @@ jobs:
 
     - name: Deploy image to Amazon EKS
       run: |
-        kubectl apply -f api-sectest-service.yaml
-        kubectl apply -f api-sectest-deployment.yaml
+        kubectl apply -f kubernetes
