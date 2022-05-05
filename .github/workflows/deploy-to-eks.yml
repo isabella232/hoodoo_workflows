@@ -49,7 +49,7 @@ jobs:
         aws-region: ${{ inputs.AWS_REGION }}
     
     - name: Update kube config
-      run: aws eks update-kubeconfig --name ${{ inputs.EKS_CLUSTER }} --region $AWS_REGION
+      run: aws eks update-kubeconfig --name ${{ inputs.EKS_CLUSTER }} --region ${{ inputs.AWS_REGION }}
 
     - name: Deploy image to Amazon EKS
       run: |
