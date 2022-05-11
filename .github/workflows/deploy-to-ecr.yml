@@ -93,10 +93,10 @@ jobs:
 
         #Push image to repository on release only
         if [[ ${{ github.event_name }} == "release" ]]; then
-              echo "release"
+              echo "Image will be pushed to ECR on release"
               docker push $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG
               echo "::set-output name=image::$ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG"
         else
-              echo "manual"
+              echo "Image wont be pushed to ECR on manual workflow trigger"
         fi
-        echo 'name:${{ github.event_name }}'
+        #echo 'name:${{ github.event_name }}'
