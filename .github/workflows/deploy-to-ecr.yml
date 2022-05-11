@@ -90,5 +90,13 @@ jobs:
         fi
         echo "AFTER: $TAG"
         docker build -t $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG .
-        docker push $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG
-        echo "::set-output name=image::$ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG"
+
+        #Push image to repository on release only
+        if [[ ${{ github.event_name }} == "release" ]]; then
+              echo "release"
+              docker push $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG
+              echo "::set-output name=image::$ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG"
+        else
+              echo "manual"
+        fi
+        
