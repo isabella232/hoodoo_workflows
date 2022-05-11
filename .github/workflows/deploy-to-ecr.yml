@@ -99,4 +99,4 @@ jobs:
         else
               echo "manual"
         fi
-        
+        echo 'name:${{ github.event_name }}'
