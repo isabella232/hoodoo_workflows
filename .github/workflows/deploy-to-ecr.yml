@@ -62,8 +62,8 @@ jobs:
 #         cmd: install # will run `yarn install` command
     - name: Install Yarn
       run: |
-        apt update
-        apt install nodejs npm
+        sudo apt update
+        sudo apt install nodejs npm
         npm install -g yarn
         echo node --version
         
