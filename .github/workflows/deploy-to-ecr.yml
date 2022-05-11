@@ -61,7 +61,11 @@ jobs:
 #       with:
 #         cmd: install # will run `yarn install` command
     - name: Install Yarn
-      run: npm install -g yarn
+      run: |
+        apt update
+        apt install nodejs npm
+        npm install -g yarn
+        echo node --version
         
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
