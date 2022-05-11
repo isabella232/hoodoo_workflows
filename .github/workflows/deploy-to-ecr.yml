@@ -57,25 +57,15 @@ jobs:
         echo "${{ env.GIT_TAG_NAME }}"
         echo "${{ steps.tagName.outputs.tag }}"
         
-#     - uses: borales/actions-yarn@v2.3.0
-#       with:
-#         cmd: install # will run `yarn install` command
-#     - name: Setup Nodejs and npm
-#       uses: actions/setup-node@v2
-#       with:
-#         node-version: "14"
 
-#     - name: Setup yarn
-#       run: npm install -g yarn
 
-#     - name: Setup Nodejs with yarn caching
-#       uses: actions/setup-node@v2
-#       with:
-#         node-version: "14"
-#         cache: yarn
-
-#     - name: Install dependencies
-#       run: yarn
+    - name: Install dependencies
+      run: |
+      
+        sudo apt-get install npm -y
+        npm install --global yarn
+        npm upgrade --global yarn 
+        yarn --version
         
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
