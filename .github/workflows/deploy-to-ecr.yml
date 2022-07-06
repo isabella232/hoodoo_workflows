@@ -77,6 +77,9 @@ jobs:
         # push it to ECR so that it can
         # be deployed to ECS.
         
+        eval `ssh-agent -s`
+        ssh-add - <<< '${{ secrets.BIG_BANG_SECRET }}'
+
         echo $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$IMAGE_TAG
         echo "${{ toJSON(steps.login-ecr.outputs) }}"
         TAG=$IMAGE_TAG
