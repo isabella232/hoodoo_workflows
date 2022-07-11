@@ -71,13 +71,6 @@ jobs:
     
 #     - name: Map SSH keys
 #       run: |
-    - uses: shaunco/ssh-agent@git-repo-mapping # this action will configure git to use the right SSH key per each repository. 
-      with:
-        ssh-private-key: |
-          ${{ secrets.BIG_BANG_SECRET}}
-        repo-mappings: |
-          github.com/hoodoo-software/big_bang.git
-
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
