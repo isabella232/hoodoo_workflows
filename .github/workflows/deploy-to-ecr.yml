@@ -71,6 +71,8 @@ jobs:
     
 #     - name: Map SSH keys
 #       run: |
+#         eval `ssh-agent -s`
+#         ssh-add - <<< '${{ secrets.BIG_BANG_SECRET }}'
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
@@ -81,6 +83,9 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
+        
+        eval `ssh-agent -s`
+        ssh-add - <<< '${{ secrets.BIG_BANG_SECRET }}'
         
         echo $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$IMAGE_TAG
         echo "${{ toJSON(steps.login-ecr.outputs) }}"
