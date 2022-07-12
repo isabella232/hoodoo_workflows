@@ -97,7 +97,7 @@ jobs:
               echo "\$TAG is NOT empty"
         fi
         echo "AFTER: $TAG"
-        docker build -t $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG --build-arg TAG_VERSION=$TAG .
+        docker build -t $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG --build-arg TAG_VERSION=$TAG --build-arg SSH_PRIVATE_KEY="${{ secrets.BIG_BANG_SECRET }}" .
 
         #Push image to repository on release only
         if [[ ${{ github.event_name }} == "release" ]]; then
