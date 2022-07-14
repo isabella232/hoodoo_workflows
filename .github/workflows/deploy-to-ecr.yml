@@ -73,7 +73,12 @@ jobs:
 #       run: |
 #         eval `ssh-agent -s`
 #         ssh-add - <<< '${{ secrets.BIG_BANG_SECRET }}'
-
+    
+    - run: 'echo "$SSH_KEY" > rsa/id_ed25519'
+      shell: bash
+      env:
+        SSH_KEY: ${{secrets.SSH_KEY}}
+        
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
