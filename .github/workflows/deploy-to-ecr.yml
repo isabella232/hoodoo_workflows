@@ -107,12 +107,12 @@ jobs:
         if [ -f "$FILE" ]; then
             echo "$FILE exists."
         fi
-        #docker build -t $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG --build-arg TAG_VERSION=$TAG --build-arg SSH_PRIVATE_KEY="${{ secrets.BIG_BANG_SECRET }}" .
+        docker build -t $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG --build-arg TAG_VERSION=$TAG --build-arg .
 
         #Push image to repository on release only
         if [[ ${{ github.event_name }} == "release" ]]; then
               echo "Image will be pushed to ECR on release"
-              #docker push $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG
+              docker push $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG
               echo "::set-output name=image::$ECR_REGISTRY/${{ inputs.ECR_REPOSITORY}}:$TAG"
         else
               echo "Image wont be pushed to ECR on manual workflow trigger"
