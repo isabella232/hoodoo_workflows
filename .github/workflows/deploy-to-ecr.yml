@@ -82,8 +82,8 @@ jobs:
         SSH_KEY: ${{secrets.BIG_BANG_SECRET}}
         BITBUCKET_KEY: ${{secrets.BITBUCKET_KEY}}
       run: |
-        'echo "$SSH_KEY" > docker/id_ed25519'
-        'echo "$BITBUCKET_KEY" > docker/id_rsa'
+        echo "$SSH_KEY" > docker/id_ed25519
+        echo "$BITBUCKET_KEY" > docker/id_rsa
         
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
