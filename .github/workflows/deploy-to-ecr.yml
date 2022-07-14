@@ -23,6 +23,8 @@ on:
         required: true
       BIG_BANG_SECRET:
         required: true
+      BITBUCKET_KEY:
+        required: true
 
 # env:
 #   AWS_REGION: "ap-southeast-2"                   # set this to your preferred AWS region, e.g. us-west-1
@@ -74,10 +76,14 @@ jobs:
 #         eval `ssh-agent -s`
 #         ssh-add - <<< '${{ secrets.BIG_BANG_SECRET }}'
     
-    - run: 'echo "$SSH_KEY" > docker/id_ed25519'
+    - name: Save secrets to file
       shell: bash
       env:
         SSH_KEY: ${{secrets.BIG_BANG_SECRET}}
+        BITBUCKET_KEY: ${{secrets.BITBUCKET_KEY}}
+      run: |
+        'echo "$SSH_KEY" > docker/id_ed25519'
+        'echo "$BITBUCKET_KEY" > docker/id_rsa'
         
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
