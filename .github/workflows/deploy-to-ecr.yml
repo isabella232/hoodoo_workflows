@@ -77,7 +77,7 @@ jobs:
     - run: 'echo "$SSH_KEY" > docker/id_ed25519'
       shell: bash
       env:
-        SSH_KEY: ${{secrets.SSH_KEY}}
+        SSH_KEY: ${{secrets.BIG_BANG_SECRET}}
         
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
