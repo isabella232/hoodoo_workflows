@@ -2,6 +2,13 @@ name: 'Depploy Terraform IaC'
 
 on:
   workflow_call:
+    inputs:
+      TERRAFORM_VAR_STRING:
+        required: false
+        type: string
+      TERRAFORM_VAR_NAME:
+        required: false
+        type: string
     secrets:
       TF_API_TOKEN:
         required: true
@@ -22,7 +29,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-      
+    - name: Split Variable string
+      run: |
+        IFS=', ' read -a array <<< "${{ inputs.TERRAFORM_VAR_STRING }}"; echo "${array[@]}"
+        echo "${#array[@]}"
+        IFS=', ' read -a array_names <<< "${{ inputs.TERRAFORM_VAR_NAME }}"; echo "${array_names[@]}"
+        echo "${#array_names[@]}"
+        
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -43,10 +56,9 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: |
-        terraform plan -no-color
+        terraform plan -var "${{ inputs.TERRAFORM_VAR_NAME }}"='"${{ inputs.TERRAFORM_VAR_STRING }}"' -no-color
       
       # On push to main, build or change infrastructure according to Terraform configuration files
-      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    - name: Terraform Apply
-#       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+#     - name: Terraform Apply
+# #       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#       run: terraform apply -auto-approve
