@@ -56,7 +56,7 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: |
-        terraform plan -var "${{ inputs.TERRAFORM_VAR_NAME }}"='"${{ inputs.TERRAFORM_VAR_STRING }}"' -no-color
+        terraform plan -var ${{ inputs.TERRAFORM_VAR_NAME }}="${{ inputs.TERRAFORM_VAR_STRING }}" -no-color
       
       # On push to main, build or change infrastructure according to Terraform configuration files
 #     - name: Terraform Apply
