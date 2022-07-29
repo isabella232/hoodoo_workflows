@@ -39,7 +39,7 @@ jobs:
         # Default: ${{ github.repository }}
         repository: ${{ inputs.TERRAFORM_IAC_REPO}}
         path: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        token: ${{ secrets.GIT_TOKEN }}
+        ssh-key: ${{ secrets.GIT_TOKEN }}
 
     - name: Split Variable string
       run: |
