@@ -38,7 +38,7 @@ jobs:
         # Repository name with owner. For example, actions/checkout
         # Default: ${{ github.repository }}
         repository: ${{ inputs.TERRAFORM_IAC_REPO}}
-        path: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+        path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         ssh-key: ${{ secrets.GIT_TOKEN }}
 
     - name: Split Variable string
@@ -58,8 +58,8 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
+      working-directory: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
       run: |
-        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         terraform init
         ls
 
