@@ -48,6 +48,7 @@ jobs:
         IFS=', ' read -a array_names <<< "${{ inputs.TERRAFORM_VAR_NAME }}"; echo "${array_names[@]}"
         echo "${#array_names[@]}"
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+        ls
         
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
@@ -58,7 +59,7 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: |
-        ls
+        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         terraform init
         ls
 
