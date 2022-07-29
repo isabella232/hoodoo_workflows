@@ -38,7 +38,7 @@ jobs:
         # Repository name with owner. For example, actions/checkout
         # Default: ${{ github.repository }}
         repository: ${{ inputs.TERRAFORM_IAC_REPO}}
-        path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+        #path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         ssh-key: ${{ secrets.GIT_TOKEN }}
 
     - name: Split Variable string
