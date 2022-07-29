@@ -47,7 +47,7 @@ jobs:
         echo "${#array[@]}"
         IFS=', ' read -a array_names <<< "${{ inputs.TERRAFORM_VAR_NAME }}"; echo "${array_names[@]}"
         echo "${#array_names[@]}"
-        tree -d /staging/
+        tree 
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         ls
         
