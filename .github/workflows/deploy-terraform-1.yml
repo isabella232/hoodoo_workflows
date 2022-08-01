@@ -60,7 +60,7 @@ jobs:
     - name: Update resources
       uses: test-room-7/action-update-file@v1
       with:
-          file-path: variables.tf
+          file-path: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}/variables.tf
           commit-msg: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
           github-token: ${{ secrets.GIT_TOKEN }}
         
