@@ -62,5 +62,5 @@ jobs:
       with:
           file-path: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}/variables.tf
           commit-msg: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
-          github-token: ${{ secrets.GIT_TOKEN }}
+          github-token: ${{ secrets.MODULE_SSH_KEY }}
         
