@@ -42,7 +42,9 @@ jobs:
         repository: ${{ inputs.TERRAFORM_IAC_REPO}}
         #path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         ssh-key: ${{ secrets.GIT_TOKEN }}
-
+    
+    - uses: actions/setup-node@v1
+    
     - name: Split Variable string
       run: |
         IFS=', ' read -a array <<< "${{ inputs.TERRAFORM_VAR_STRING }}"; echo "${array[@]}"
@@ -52,7 +54,13 @@ jobs:
         tree 
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         ls
-        sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\default=${{ inputs.TERRAFORM_VAR_STRING }} #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+        sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
         cat variables.tf
-
+        
+    - name: Update resources
+      uses: test-room-7/action-update-file@v1
+      with:
+          file-path: variables.tf
+          commit-msg: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
+          github-token: ${{ secrets.GIT_TOKEN }}
         
