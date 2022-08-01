@@ -69,7 +69,7 @@ jobs:
     - name: ssh-add
       working-directory: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
       run: |
-        echo "${{ secrets.MODULE_SSH_KEY }}" > id_rsa
+        echo "${{ secrets.GIT_TOKEN }}" > id_rsa
         ssh-keyscan github.com > known_hosts
         chmod 400 id_rsa known_hosts
         
