@@ -1,0 +1,58 @@
+name: 'Depploy Terraform IaC'
+
+on:
+  workflow_call:
+    inputs:
+      TERRAFORM_VAR_STRING:
+        required: false
+        type: string
+      TERRAFORM_VAR_NAME:
+        required: false
+        type: string
+      TERRAFORM_IAC_REPO:
+        type: string
+      TERRAFORM_IAC_REPO_PATH:
+        type: string
+    secrets:
+      TF_API_TOKEN:
+        required: true
+      GIT_TOKEN:
+        required: true
+      MODULE_SSH_KEY:
+        required: true
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        # Repository name with owner. For example, actions/checkout
+        # Default: ${{ github.repository }}
+        repository: ${{ inputs.TERRAFORM_IAC_REPO}}
+        #path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+        ssh-key: ${{ secrets.GIT_TOKEN }}
+
+    - name: Split Variable string
+      run: |
+        IFS=', ' read -a array <<< "${{ inputs.TERRAFORM_VAR_STRING }}"; echo "${array[@]}"
+        echo "${#array[@]}"
+        IFS=', ' read -a array_names <<< "${{ inputs.TERRAFORM_VAR_NAME }}"; echo "${array_names[@]}"
+        echo "${#array_names[@]}"
+        tree 
+        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+        ls
+        sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\default=${{ inputs.TERRAFORM_VAR_STRING }} #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+        cat variables.tf
+
+        
