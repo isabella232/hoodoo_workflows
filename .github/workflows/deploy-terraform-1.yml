@@ -34,15 +34,15 @@ jobs:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        # Repository name with owner. For example, actions/checkout
-        # Default: ${{ github.repository }}
-        repository: ${{ inputs.TERRAFORM_IAC_REPO}}
-        #path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        ssh-key: ${{ secrets.GIT_TOKEN }}
+
+#     - name: Checkout
+#       uses: actions/checkout@v3
+#       with:
+#         # Repository name with owner. For example, actions/checkout
+#         # Default: ${{ github.repository }}
+#         repository: ${{ inputs.TERRAFORM_IAC_REPO}}
+#         #path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+#         ssh-key: ${{ secrets.GIT_TOKEN }}
     
 
     - name: Generate API module
@@ -50,8 +50,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.MODULE_SSH_KEY }}
       run: |
 
-        # git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} # This works
-        git remote add origin https://github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
+        git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} # This works
         
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         git config user.name "anatoliihoodoo"
