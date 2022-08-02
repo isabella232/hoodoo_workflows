@@ -69,9 +69,11 @@ jobs:
         # origin ***github.com/owner/my-repo.git (fetch)
         # origin ***github.com/owner/my-repo.git (push)
         
-        git config --unset-all http.https://github.com/.extraheader
+        # git config --unset-all http.https://github.com/.extraheader
+        git config -l | grep 'http\..*\.extraheader' | cut -d= -f1 |  xargs -L1 git config --unset-all
         # git push --set-upstream origin api-version-$COMMIT # This does not work
-        git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
+        # git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
+        git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
 
 
 #     - name: Split Variable string
