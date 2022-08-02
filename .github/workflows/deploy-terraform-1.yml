@@ -51,7 +51,8 @@ jobs:
       run: |
 
         # git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} # This works
-
+        git remote add origin https://github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
+        
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         git config user.name "anatoliihoodoo"
         git config user.email "anatolii.vorobiov@hoodoo.software"
