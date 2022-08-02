@@ -44,19 +44,41 @@ jobs:
         #path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         ssh-key: ${{ secrets.GIT_TOKEN }}
     
-#     - uses: actions/setup-node@v1
-    
-    - name: Split Variable string
+
+    - name: Generate API module
+      env:
+        GITHUB_TOKEN: ${{ secrets.MODULE_SSH_KEY }}
       run: |
-        IFS=', ' read -a array <<< "${{ inputs.TERRAFORM_VAR_STRING }}"; echo "${array[@]}"
-        echo "${#array[@]}"
-        IFS=', ' read -a array_names <<< "${{ inputs.TERRAFORM_VAR_NAME }}"; echo "${array_names[@]}"
-        echo "${#array_names[@]}"
-        tree 
+
+        # git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} # This works
+
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        ls
+        git config user.name "anatoliihoodoo"
+        git config user.email "anatolii.vorobiov@hoodoo.software"
+
+        # git checkout -b api-version-$COMMIT
+
+        # touch new-file.sh
+        # git add new-file.sh
+        
         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-        cat variables.tf
+        git commit -m "Add new file"
+
+        git remote -v # Prints:
+        # origin ***github.com/owner/my-repo.git (fetch)
+        # origin ***github.com/owner/my-repo.git (push)
+
+        # git push --set-upstream origin api-version-$COMMIT # This does not work
+        git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
+
+
+#     - name: Split Variable string
+#       run: |
+#         tree 
+#         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+#         ls
+#         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+#         cat variables.tf
         
 #     - name: Commit and push changes
 #       uses: devops-infra/action-commit-push@master
@@ -65,18 +87,21 @@ jobs:
 #         commit_message: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
           
           
-    - name: Pushes to another repository
-      uses: cpina/github-action-push-to-another-repository@main
-      env:
-#         SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-        API_TOKEN_GITHUB: ${{ secrets.MODULE_SSH_KEY }}
-      with:
-        source-directory: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        destination-github-username: 'anatoliihoodoo'
-        destination-repository-name: '${{ inputs.TERRAFORM_IAC_REPO}}'
-        user-email: anatolii.vorobiov@hoodoo.software
-        target-branch: main
           
+#     - name: Pushes to another repository
+#       uses: cpina/github-action-push-to-another-repository@main
+#       env:
+# #         SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+#         API_TOKEN_GITHUB: ${{ secrets.MODULE_SSH_KEY }}
+#       with:
+#         source-directory: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+#         destination-github-username: 'anatoliihoodoo'
+#         destination-repository-name: '${{ inputs.TERRAFORM_IAC_REPO}}'
+#         user-email: anatolii.vorobiov@hoodoo.software
+#         target-branch: main
+        
+        
+        
 #     - name: Update resources
 #       uses: test-room-7/action-update-file@v1
 #       with:
