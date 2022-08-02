@@ -47,7 +47,7 @@ jobs:
 
     - name: Generate API module
       env:
-        GITHUB_TOKEN: ${{ secrets.MODULE_SSH_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       run: |
 
         git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} # This works
@@ -55,7 +55,8 @@ jobs:
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         git config user.name "anatoliihoodoo"
         git config user.email "anatolii.vorobiov@hoodoo.software"
-
+        git remote show origin
+        
         # git checkout -b api-version-$COMMIT
 
         # touch new-file.sh
