@@ -62,7 +62,8 @@ jobs:
         # git add new-file.sh
         
         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-        git commit -m "Add new file"
+        git add .
+        git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
 
         git remote -v # Prints:
         # origin ***github.com/owner/my-repo.git (fetch)
