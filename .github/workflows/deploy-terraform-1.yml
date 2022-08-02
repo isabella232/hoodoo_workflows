@@ -49,12 +49,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       run: |
-
-        git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git # This works
         
-        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         git config user.name "anatoliihoodoo"
         git config user.email "anatolii.vorobiov@hoodoo.software"
+        
+        git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git --branch=main main
+        
+        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+        
         git remote show origin
         
         # git checkout -b api-version-$COMMIT
