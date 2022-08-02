@@ -44,7 +44,7 @@ jobs:
         #path: ./${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         ssh-key: ${{ secrets.GIT_TOKEN }}
     
-    - uses: actions/setup-node@v1
+#     - uses: actions/setup-node@v1
     
     - name: Split Variable string
       run: |
@@ -58,10 +58,17 @@ jobs:
         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
         cat variables.tf
         
-    - name: Update resources
-      uses: test-room-7/action-update-file@v1
+    - name: Commit and push changes
+      uses: devops-infra/action-commit-push@master
       with:
-          file-path: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}/variables.tf
-          commit-msg: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
-          github-token: ${{ secrets.MODULE_SSH_KEY }}
+        github_token: ${{ secrets.MODULE_SSH_KEY }}
+        commit_message: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
+          
+#     - name: Update resources
+#       uses: test-room-7/action-update-file@v1
+#       with:
+#           file-path: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}/variables.tf
+#           commit-msg: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
+#           github-token: ${{ secrets.MODULE_SSH_KEY }}
+#           committer-email: anatolii.vorobiov@hoodoo.software
         
