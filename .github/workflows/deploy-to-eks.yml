@@ -1,4 +1,4 @@
-name: Deploy to Amazon EKS
+name: Update Deployment Image in Amazon EKS
 
 on:
   workflow_call:
@@ -18,6 +18,10 @@ on:
       IMAGE_TAG:
         required: true
         type: string
+      DEPLOYMENT_CONTAINER:
+        required: false
+        type: string
+        default: ''
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -58,8 +62,19 @@ jobs:
       run: aws eks update-kubeconfig --name ${{ inputs.EKS_CLUSTER }} --region ${{ inputs.AWS_REGION }}
 
     - name: Deploy image to Amazon EKS
+      if: ${{ inputs.DEPLOYMENT_CONTAINER== '' }}
       run: |
         kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} api=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
         kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} sidekiq=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
-        sleep 20
-        kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- ls 
+
+    - name: Deploy image to Amazon EKS
+      if: ${{ inputs.DEPLOYMENT_CONTAINER!='' }}
+      run: |
+        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} ${{ inputs.DEPLOYMENT_CONTAINER}}=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
+        
+        
+    - name: Run command on updated container
+      if: ${{ github.event_name == 'release'}}
+      run: |
+        sleep 40
+        kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- rake db:migrate 
