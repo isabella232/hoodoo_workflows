@@ -58,19 +58,23 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ inputs.AWS_REGION }}
     
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      
     - name: Update kube config
       run: aws eks update-kubeconfig --name ${{ inputs.EKS_CLUSTER }} --region ${{ inputs.AWS_REGION }}
 
     - name: Deploy image to Amazon EKS
       if: ${{ inputs.DEPLOYMENT_CONTAINER== '' }}
       run: |
-        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} api=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
-        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} sidekiq=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
+        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} api=${{ steps.login-ecr.outputs.registry }}/${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
+        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} sidekiq=${{ steps.login-ecr.outputs.registry }}/${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
 
     - name: Deploy image to Amazon EKS
       if: ${{ inputs.DEPLOYMENT_CONTAINER!='' }}
       run: |
-        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} ${{ inputs.DEPLOYMENT_CONTAINER}}=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
+        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} ${{ inputs.DEPLOYMENT_CONTAINER}}=${{ steps.login-ecr.outputs.registry }}/${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
         
         
     - name: Run command on updated container
