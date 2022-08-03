@@ -25,6 +25,11 @@ on:
         required: true
       BITBUCKET_KEY:
         required: true
+    outputs:
+      TAG:
+        description: "The first output string"
+        value: ${{ jobs.deploy.outputs.TAG }}
+
 
 # env:
 #   AWS_REGION: "ap-southeast-2"                   # set this to your preferred AWS region, e.g. us-west-1
@@ -32,6 +37,8 @@ on:
 
 jobs:
   deploy:
+    outputs:
+      TAG: ${{ steps.build-image.outputs.TAG }}
     name: Deploy
     runs-on: ubuntu-latest
     environment: ${{ inputs.ENVIRONMENT }}
@@ -108,6 +115,7 @@ jobs:
               echo "\$TAG is NOT empty"
         fi
         echo "AFTER: $TAG"
+        echo "::set-output name=TAG::$TAG"
         
         FILE=docker/id_ed25519
         if [ -f "$FILE" ]; then
