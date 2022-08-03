@@ -59,6 +59,7 @@ jobs:
 
     - name: Deploy image to Amazon EKS
       run: |
-        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} mycontainer=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
+        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} api=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
+        kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} sidekiq=${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
         sleep(20)
         kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- ls 
