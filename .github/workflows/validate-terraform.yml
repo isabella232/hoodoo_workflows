@@ -1,0 +1,33 @@
+name: 'Validate Terraform IaC'
+
+on:
+  workflow_call:
+    
+
+jobs:
+  terraform:
+    name: 'Terraform validation'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: triat/terraform-security-scan@v3
+      - uses: terraform-linters/setup-tflint@v2
+        name: Setup TFLint
+        with:
+          tflint_version: v0.38.1
+
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
