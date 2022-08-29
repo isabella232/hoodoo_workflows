@@ -15,11 +15,11 @@ on:
         type: string
     secrets:
       TF_API_TOKEN:
-        required: true
+        required: false
       GIT_TOKEN:
         required: true
       MODULE_SSH_KEY:
-        required: true
+        required: false
 
 jobs:
   terraform:
