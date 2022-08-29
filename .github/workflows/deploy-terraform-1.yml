@@ -45,73 +45,44 @@ jobs:
         ssh-key: ${{ secrets.GIT_TOKEN }}
     
 
-#     - name: Generate API module
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-#       run: |
-        
-#         git config user.name "anatoliihoodoo"
-#         git config user.email "anatolii.vorobiov@hoodoo.software"
-        
-#         #git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git --branch=main main
-        
-#         #ls
-#         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-#         #tree 
-#         git remote show origin
-  
-#         #COMMENTED git checkout -b api-version-$COMMIT
-        
-#         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-#         git add .
-#         git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
-
-#         #git remote -v # Prints:
-                
-#         git remote rm origin
-#         #git remote add origin  https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
-
-#         #git push --set-upstream origin main
-#         git remote add origin git@github.com:${{ inputs.TERRAFORM_IAC_REPO }}.git 
-#         git remote -v
-#         git fetch origin
-#         git push -u origin main
-
-    - name: Split Variable string
-      run: |
-        tree 
-        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        ls
-        sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-        cat variables.tf
-        
-#     - name: Commit and push changes
-#       uses: devops-infra/action-commit-push@master
-#       with:
-#         github_token: ${{ secrets.MODULE_SSH_KEY }}
-#         commit_message: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
-          
-          
-          
-    - name: Pushes to another repository
-      uses: cpina/github-action-push-to-another-repository@main
+    - name: Update variable file and push
       env:
-        SSH_DEPLOY_KEY: ${{ secrets.GIT_TOKEN }}
-#         API_TOKEN_GITHUB: ${{ secrets.MODULE_SSH_KEY }}
-      with:
-        source-directory: ''
-        destination-github-username: 'anatoliihoodoo'
-        destination-repository-name: '${{ inputs.TERRAFORM_IAC_REPO}}'
-        user-email: anatolii.vorobiov@hoodoo.software
-        target-branch: main
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+      run: |
         
+        git config user.name "anatoliihoodoo"
+        git config user.email "anatolii.vorobiov@hoodoo.software"
         
+        #git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git --branch=main main
         
-#     - name: Update resources
-#       uses: test-room-7/action-update-file@v1
-#       with:
-#           file-path: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}/variables.tf
-#           commit-msg: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
-#           github-token: ${{ secrets.MODULE_SSH_KEY }}
-#           committer-email: anatolii.vorobiov@hoodoo.software
+        #ls
+        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+        #tree 
+        git remote show origin
+  
+        #COMMENTED git checkout -b api-version-$COMMIT
+        
+        sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+        git add .
+        git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
+
+        #git remote -v # Prints:
+                
+        git remote rm origin
+        #git remote add origin  https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
+
+        #git push --set-upstream origin main
+        git remote add origin git@github.com:${{ inputs.TERRAFORM_IAC_REPO }}.git 
+        git remote -v
+        git fetch origin
+        git push -u origin main
+
+#     - name: Split Variable string
+#       run: |
+#         tree 
+#         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+#         ls
+#         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+#         cat variables.tf
+ 
         
