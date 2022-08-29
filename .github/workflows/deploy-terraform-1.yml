@@ -75,10 +75,12 @@ jobs:
         #COMMENTED git push --set-upstream origin api-version-$COMMIT # This does not work
         
         git remote rm origin
-        git remote add origin  https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
+        #git remote add origin  https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
 
-        git push --set-upstream origin main
-        
+        #git push --set-upstream origin main
+        git remote add origin git@github.com:hoodoo-software/${{ inputs.TERRAFORM_IAC_REPO }}.git  
+        git push -u origin master
+
         #git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
         #git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
         #git push https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
