@@ -45,30 +45,29 @@ jobs:
         ssh-key: ${{ secrets.GIT_TOKEN }}
     
 
-#     - name: Generate API module
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.MODULE_SSH_KEY }}
-#       run: |
+    - name: Generate API module
+      env:
+        GITHUB_TOKEN: ${{ secrets.MODULE_SSH_KEY }}
+      run: |
         
-#         git config user.name "anatoliihoodoo"
-#         git config user.email "anatolii.vorobiov@hoodoo.software"
+        git config user.name "anatoliihoodoo"
+        git config user.email "anatolii.vorobiov@hoodoo.software"
         
-#         git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git 
-#         #--branch=main main
+        #git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git --branch=main main
         
-#         ls
-#         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+        ls
+        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         
-#         #git remote show origin
+        #git remote show origin
         
-#         #COMMENTED git checkout -b api-version-$COMMIT
+        #COMMENTED git checkout -b api-version-$COMMIT
 
-#         #COMMENTED touch new-file.sh
-#         #COMMENTED git add new-file.sh
+        #COMMENTED touch new-file.sh
+        #COMMENTED git add new-file.sh
         
-#         #sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-#         #git add .
-#         #git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
+        #sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+        #git add .
+        #git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
 
 #         #git remote -v # Prints:
 #         #COMMENTED origin ***github.com/owner/my-repo.git (fetch)
@@ -97,17 +96,17 @@ jobs:
           
           
           
-    - name: Pushes to another repository
-      uses: cpina/github-action-push-to-another-repository@main
-      env:
-        SSH_DEPLOY_KEY: ${{ secrets.GIT_TOKEN }}
-#         API_TOKEN_GITHUB: ${{ secrets.MODULE_SSH_KEY }}
-      with:
-        source-directory: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        destination-github-username: 'anatoliihoodoo'
-        destination-repository-name: '${{ inputs.TERRAFORM_IAC_REPO}}'
-        user-email: anatolii.vorobiov@hoodoo.software
-        target-branch: main
+#     - name: Pushes to another repository
+#       uses: cpina/github-action-push-to-another-repository@main
+#       env:
+#         SSH_DEPLOY_KEY: ${{ secrets.GIT_TOKEN }}
+# #         API_TOKEN_GITHUB: ${{ secrets.MODULE_SSH_KEY }}
+#       with:
+#         source-directory: ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+#         destination-github-username: 'anatoliihoodoo'
+#         destination-repository-name: '${{ inputs.TERRAFORM_IAC_REPO}}'
+#         user-email: anatolii.vorobiov@hoodoo.software
+#         target-branch: main
         
         
         
