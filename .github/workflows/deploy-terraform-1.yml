@@ -66,17 +66,17 @@ jobs:
         
         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
         git add .
-        git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
+        #git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
 
-        git remote -v # Prints:
-        # origin ***github.com/owner/my-repo.git (fetch)
-        # origin ***github.com/owner/my-repo.git (push)
+        #git remote -v # Prints:
+        #COMMENTED origin ***github.com/owner/my-repo.git (fetch)
+        #COMMENTED origin ***github.com/owner/my-repo.git (push)
         
-        # git config --unset-all http.https://github.com/.extraheader
-        git config -l | grep 'http\..*\.extraheader' | cut -d= -f1 |  xargs -L1 git config --unset-all
-        # git push --set-upstream origin api-version-$COMMIT # This does not work
-        # git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
-        git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
+        #COMMENTED git config --unset-all http.https://github.com/.extraheader
+        #git config -l | grep 'http\..*\.extraheader' | cut -d= -f1 |  xargs -L1 git config --unset-all
+        #COMMENTED git push --set-upstream origin api-version-$COMMIT # This does not work
+        #COMMENTED git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
+        #git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
 
 
 #     - name: Split Variable string
