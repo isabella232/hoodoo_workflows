@@ -55,6 +55,7 @@ jobs:
         
         git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git --branch=main main
         
+        ls
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         
         git remote show origin
