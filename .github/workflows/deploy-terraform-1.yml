@@ -58,15 +58,15 @@ jobs:
         ls
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
         
-        git remote show origin
+        #git remote show origin
         
-        # git checkout -b api-version-$COMMIT
+        #COMMENTED git checkout -b api-version-$COMMIT
 
-        # touch new-file.sh
-        # git add new-file.sh
+        #COMMENTED touch new-file.sh
+        #COMMENTED git add new-file.sh
         
-        sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-        git add .
+        #sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+        #git add .
         #git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
 
         #git remote -v # Prints:
