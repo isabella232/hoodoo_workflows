@@ -57,17 +57,17 @@ jobs:
         
         ls
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        
-        #git remote show origin
+        tree 
+        git remote show origin
         
         #COMMENTED git checkout -b api-version-$COMMIT
 
         #COMMENTED touch new-file.sh
         #COMMENTED git add new-file.sh
         
-        #sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-        #git add .
-        #git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
+        sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+        git add .
+        git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
 
 #         #git remote -v # Prints:
 #         #COMMENTED origin ***github.com/owner/my-repo.git (fetch)
@@ -80,13 +80,13 @@ jobs:
 #         #git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
 
 
-    - name: Split Variable string
-      run: |
-        tree 
-        cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        ls
-        sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-        cat variables.tf
+#     - name: Split Variable string
+#       run: |
+#         tree 
+#         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+#         ls
+#         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+#         cat variables.tf
         
 #     - name: Commit and push changes
 #       uses: devops-infra/action-commit-push@master
