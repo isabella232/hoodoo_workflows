@@ -53,7 +53,8 @@ jobs:
         git config user.name "anatoliihoodoo"
         git config user.email "anatolii.vorobiov@hoodoo.software"
         
-        git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git --branch=main main
+        git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git 
+        #--branch=main main
         
         ls
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
