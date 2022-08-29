@@ -47,7 +47,7 @@ jobs:
 
     - name: Generate API module
       env:
-        GITHUB_TOKEN: ${{ secrets.MODULE_SSH_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
       run: |
         
         git config user.name "anatoliihoodoo"
