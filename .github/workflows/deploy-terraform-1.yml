@@ -74,7 +74,7 @@ jobs:
         #git config -l | grep 'http\..*\.extraheader' | cut -d= -f1 |  xargs -L1 git config --unset-all
         #COMMENTED git push --set-upstream origin api-version-$COMMIT # This does not work
         
-        git push origin master
+        git push origin
         
         #git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
         #git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
