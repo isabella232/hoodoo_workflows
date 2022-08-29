@@ -78,6 +78,7 @@ jobs:
         #COMMENTED git push --set-upstream origin api-version-$COMMIT # This does not work
         #git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
         #git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
+        git fetch ${{ inputs.TERRAFORM_IAC_REPO }}
         git push https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
 
 #     - name: Split Variable string
