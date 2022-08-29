@@ -80,6 +80,6 @@ jobs:
     - name: Run command on updated container
       if: ${{ github.event_name == 'release' && inputs.DEPLOYMENT_CONTAINER == '' }}
       run: |
-        sleep 40
+        sleep 60
         kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- rake db:migrate 
         kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- rake one_time:update
