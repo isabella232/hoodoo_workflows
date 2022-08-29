@@ -45,45 +45,48 @@ jobs:
         ssh-key: ${{ secrets.GIT_TOKEN }}
     
 
-#     - name: Generate API module
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.MODULE_SSH_KEY }}
-#       run: |
-        
-#         git config user.name "anatoliihoodoo"
-#         git config user.email "anatolii.vorobiov@hoodoo.software"
-        
-#         #git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git --branch=main main
-        
-#         #ls
-#         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-#         #tree 
-#         git remote show origin
-        
-#         #COMMENTED git checkout -b api-version-$COMMIT
-        
-#         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-#         git add .
-#         git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
-
-#         #git remote -v # Prints:
-#         #COMMENTED origin ***github.com/owner/my-repo.git (fetch)
-#         #COMMENTED origin ***github.com/owner/my-repo.git (push)
-        
-#         #COMMENTED git config --unset-all http.https://github.com/.extraheader
-#         #git config -l | grep 'http\..*\.extraheader' | cut -d= -f1 |  xargs -L1 git config --unset-all
-#         #COMMENTED git push --set-upstream origin api-version-$COMMIT # This does not work
-#         git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
-#         #git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
-#         #git push https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
-
-    - name: Split Variable string
+    - name: Generate API module
+      env:
+        GITHUB_TOKEN: ${{ secrets.MODULE_SSH_KEY }}
       run: |
-        tree 
+        
+        git config user.name "anatoliihoodoo"
+        git config user.email "anatolii.vorobiov@hoodoo.software"
+        
+        #git clone https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git --branch=main main
+        
+        #ls
         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
-        ls
+        #tree 
+        git remote show origin
+        
+        #COMMENTED git checkout -b api-version-$COMMIT
+        
         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
-        cat variables.tf
+        git add .
+        git commit -m "Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}"
+
+        #git remote -v # Prints:
+        #COMMENTED origin ***github.com/owner/my-repo.git (fetch)
+        #COMMENTED origin ***github.com/owner/my-repo.git (push)
+        
+        #COMMENTED git config --unset-all http.https://github.com/.extraheader
+        #git config -l | grep 'http\..*\.extraheader' | cut -d= -f1 |  xargs -L1 git config --unset-all
+        #COMMENTED git push --set-upstream origin api-version-$COMMIT # This does not work
+        
+        git push origin master
+        
+        #git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
+        #git push --prune https://token:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
+        #git push https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
+
+#     - name: Split Variable string
+#       run: |
+#         tree 
+#         cd ${{ inputs.TERRAFORM_IAC_REPO_PATH }}
+#         ls
+#         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
+#         cat variables.tf
         
 #     - name: Commit and push changes
 #       uses: devops-infra/action-commit-push@master
@@ -93,17 +96,17 @@ jobs:
           
           
           
-    - name: Pushes to another repository
-      uses: cpina/github-action-push-to-another-repository@main
-      env:
-        SSH_DEPLOY_KEY: ${{ secrets.GIT_TOKEN }}
-#         API_TOKEN_GITHUB: ${{ secrets.MODULE_SSH_KEY }}
-      with:
-        source-directory: ''
-        destination-github-username: 'anatoliihoodoo'
-        destination-repository-name: '${{ inputs.TERRAFORM_IAC_REPO}}'
-        user-email: anatolii.vorobiov@hoodoo.software
-        target-branch: main
+#     - name: Pushes to another repository
+#       uses: cpina/github-action-push-to-another-repository@main
+#       env:
+#         SSH_DEPLOY_KEY: ${{ secrets.GIT_TOKEN }}
+# #         API_TOKEN_GITHUB: ${{ secrets.MODULE_SSH_KEY }}
+#       with:
+#         source-directory: ''
+#         destination-github-username: 'anatoliihoodoo'
+#         destination-repository-name: '${{ inputs.TERRAFORM_IAC_REPO}}'
+#         user-email: anatolii.vorobiov@hoodoo.software
+#         target-branch: main
         
         
         
