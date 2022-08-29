@@ -89,11 +89,11 @@ jobs:
         sed -i '/#variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}/c\ default="${{ inputs.TERRAFORM_VAR_STRING }}" #variable placeholder ${{ inputs.TERRAFORM_VAR_NAME}}' variables.tf
         cat variables.tf
         
-#     - name: Commit and push changes
-#       uses: devops-infra/action-commit-push@master
-#       with:
-#         github_token: ${{ secrets.MODULE_SSH_KEY }}
-#         commit_message: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
+    - name: Commit and push changes
+      uses: devops-infra/action-commit-push@master
+      with:
+        github_token: ${{ secrets.MODULE_SSH_KEY }}
+        commit_message: Version of ${{ inputs.TERRAFORM_VAR_NAME}} updated to ${{ inputs.TERRAFORM_VAR_STRING }}
           
           
           
