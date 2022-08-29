@@ -78,7 +78,9 @@ jobs:
         #git remote add origin  https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }}.git
 
         #git push --set-upstream origin main
-        git remote add origin git@github.com:hoodoo-software/${{ inputs.TERRAFORM_IAC_REPO }}.git  
+        git remote add origin git@github.com:hoodoo-software/${{ inputs.TERRAFORM_IAC_REPO }}.git 
+        git remote -v
+        git fetch origin
         #git push -u origin master
 
         #git push --set-upstream https://anatoliihoodoo:$GITHUB_TOKEN@github.com/${{ inputs.TERRAFORM_IAC_REPO }} main # This does not work either
