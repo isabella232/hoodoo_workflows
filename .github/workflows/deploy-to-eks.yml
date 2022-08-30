@@ -82,4 +82,3 @@ jobs:
       run: |
         sleep 60
         kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- rake db:migrate 
-        kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- rake one_time:update
