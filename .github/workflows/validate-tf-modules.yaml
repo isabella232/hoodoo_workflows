@@ -33,7 +33,6 @@ jobs:
         with:
           directory: .
           check: CKV_AWS_*, CKV_K8S_*, CKV_SECRET_*
-#           download_external_modules: true
-#           tfc_token: ${{ secrets.TF_TOKEN }}
+          skip_check: CKV_AWS_38, CKV_AWS_39
           framework: all 
           
