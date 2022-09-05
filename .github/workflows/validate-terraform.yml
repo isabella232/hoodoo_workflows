@@ -46,5 +46,5 @@ jobs:
           check: CKV_AWS_*, CKV_K8S_*
           download_external_modules: true
           tfc_token: ${{ secrets.TF_TOKEN }}
-          framework: terraform 
+          framework: all 
           
