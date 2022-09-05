@@ -1,6 +1,9 @@
 name: Terraform modules validation
 on:
   workflow_call:
+    secrets:
+        TF_TOKEN:
+          required: true
 jobs:
   tfsec:
     name: tfsec
@@ -31,6 +34,9 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           directory: .
+          check: CKV_AWS_*
+          download_external_modules: true
+          tfc_token: ${{ secrets.TF_TOKEN }}
           framework: terraform 
           
 #       - name: Run Checkov action
