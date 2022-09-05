@@ -2,7 +2,9 @@ name: 'Validate Terraform IaC'
 
 on:
   workflow_call:
-    
+    secrets:
+      TF_TOKEN:
+        required: true
 
 jobs:
   terraform:
@@ -31,3 +33,18 @@ jobs:
 
       - name: Run TFLint
         run: tflint -f compact
+        
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Test with Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          check: CKV_AWS_*, CKV_K8S_*
+          download_external_modules: true
+          tfc_token: ${{ secrets.TF_TOKEN }}
+          framework: terraform 
+          
