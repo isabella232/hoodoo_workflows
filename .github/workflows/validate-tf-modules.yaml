@@ -1,9 +1,7 @@
 name: Terraform modules validation
 on:
   workflow_call:
-    secrets:
-        TF_TOKEN:
-          required: true
+
 jobs:
   tfsec:
     name: tfsec
@@ -35,7 +33,7 @@ jobs:
         with:
           directory: .
           check: CKV_AWS_*, CKV_K8S_*
-          download_external_modules: true
-          tfc_token: ${{ secrets.TF_TOKEN }}
-          framework: terraform 
+#           download_external_modules: true
+#           tfc_token: ${{ secrets.TF_TOKEN }}
+          framework: all 
           
