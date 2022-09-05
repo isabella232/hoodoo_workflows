@@ -32,7 +32,7 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           directory: .
-          check: CKV_AWS_*, CKV_K8S_*
+          check: CKV_AWS_*, CKV_K8S_*, CKV_SECRET_*
 #           download_external_modules: true
 #           tfc_token: ${{ secrets.TF_TOKEN }}
           framework: all 
