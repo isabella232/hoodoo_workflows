@@ -45,7 +45,7 @@ jobs:
         with:
           directory: .
           check: CKV_AWS_*, CKV_K8S_*, CKV_SECRET_*
-          skip-check: CKV_AWS_38,CKV_AWS_39,CKV_AWS_130,CKV_AWS_144,CKV_K8S_29,CKV_AWS_31,CKV_AWS_192
+          skip-check: CKV_AWS_38,CKV_AWS_39,CKV_AWS_130,CKV_AWS_144,CKV_K8S_29,CKV_AWS_31
           download_external_modules: true
           tfc_token: ${{ secrets.TF_TOKEN }}
           framework: all 
