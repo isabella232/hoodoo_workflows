@@ -65,20 +65,26 @@ jobs:
     - name: Update kube config
       run: aws eks update-kubeconfig --name ${{ inputs.EKS_CLUSTER }} --region ${{ inputs.AWS_REGION }}
 
-    - name: Deploy image to Amazon EKS
+    - name: Deploy API image to Amazon EKS
       if: ${{ inputs.DEPLOYMENT_CONTAINER== '' }}
       run: |
         kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} api=${{ steps.login-ecr.outputs.registry }}/${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
         kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} sidekiq=${{ steps.login-ecr.outputs.registry }}/${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
 
-    - name: Deploy image to Amazon EKS
+    - name: Deploy NOVA/Nebula image to Amazon EKS
       if: ${{ inputs.DEPLOYMENT_CONTAINER!='' }}
       run: |
         kubectl set image deployment/${{ inputs.DEPLOYMENT_NAME }} ${{ inputs.DEPLOYMENT_CONTAINER}}=${{ steps.login-ecr.outputs.registry }}/${{ inputs.IMAGE_NAME }}:${{ inputs.IMAGE_TAG }}
         
         
-    - name: Run command on updated container
+    - name: Run command on updated API container
       if: ${{ github.event_name == 'release' && inputs.DEPLOYMENT_CONTAINER == '' }}
       run: |
         sleep 60
         kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- rake db:migrate 
+        
+    - name: Run command on updated Nova container
+      if: ${{ github.event_name == 'release' && inputs.DEPLOYMENT_CONTAINER == 'nova' }}
+      run: |
+        sleep 60
+        kubectl exec deploy/${{ inputs.DEPLOYMENT_NAME }} -- rake deface:precompile 
